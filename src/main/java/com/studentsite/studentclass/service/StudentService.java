@@ -3,6 +3,7 @@ package com.studentsite.studentclass.service;
 import com.studentsite.studentclass.exception.UserNotFoundException;
 import com.studentsite.studentclass.model.Student;
 import com.studentsite.studentclass.repo.StudentRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class StudentService {
                 .orElseThrow(() -> new UserNotFoundException("User By id " + id + " was not found"));
     }
 
+    @Transactional
     public void deleteStudent(Long id) {
         studentRepo.deleteStudentById(id);
     }
