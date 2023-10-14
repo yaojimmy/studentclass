@@ -3,6 +3,7 @@ package com.studentsite.studentclass.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Student implements Serializable {
@@ -15,13 +16,16 @@ public class Student implements Serializable {
     private String phone;
     @Column(nullable = false, updatable = false)
     private String studentCode;
+    @OneToMany
+    private List<Course> courses;
 
     public Student() {}
 
-    public Student(String name, String email, String phone) {
+    public Student(String name, String email, String phone, List<Course> courses) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.courses = courses;
     }
 
     public Long getId() {
@@ -72,5 +76,13 @@ public class Student implements Serializable {
 
     public void setStudentCode(String studentCode) {
         this.studentCode = studentCode;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }
