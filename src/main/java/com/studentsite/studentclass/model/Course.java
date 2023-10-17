@@ -4,25 +4,31 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
 public class Course implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
     private Long id;
     private String name;
     private String professor;
     @Column(nullable = false, updatable = false)
     private String courseCode;
+    @OneToMany
+    private List<Student> students;
     @ManyToAny
     private Map<Student, Integer> studentGrades;
 
     public Course() {}
 
-    public Course(Long id, String name, String professor, Map<Student, Integer> studentGrades) {
-        this.id = id;
+    public Course(String name, String professor) {
         this.name = name;
         this.professor = professor;
-        this.studentGrades = studentGrades;
+        this.studentGrades = new HashMap<>();
     }
 
     public void setId(Long id) {
@@ -50,14 +56,19 @@ public class Course implements Serializable {
     }
 
     public void addStudent(Student student) {
-        studentGrades.put(student, 0);
+        students.add(student);
     }
 
-    public void changeGrade(Student student, Integer grade) {
+    public void addGrade(Student student, Integer grade) {
         studentGrades.put(student, grade);
     }
 
     public void removeStudent(Student student) {
+        students.remove(student);
+        studentGrades.remove(student);
+    }
+
+    public void removeGrade(Student student) {
         studentGrades.remove(student);
     }
 
