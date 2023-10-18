@@ -3,6 +3,7 @@ package com.studentsite.studentclass.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,9 @@ public class Student implements Serializable {
     @OneToMany
     private List<Course> courses;
 
-    public Student() {}
+    public Student() {
+        this.courses = new ArrayList<>();
+    }
 
     public Student(String name, String email, String phone, List<Course> courses) {
         this.name = name;

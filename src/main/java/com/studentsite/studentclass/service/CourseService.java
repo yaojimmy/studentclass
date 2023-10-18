@@ -1,6 +1,6 @@
 package com.studentsite.studentclass.service;
 
-import com.studentsite.studentclass.exception.UserNotFoundException;
+import com.studentsite.studentclass.exception.CourseNotFoundException;
 import com.studentsite.studentclass.model.Course;
 import com.studentsite.studentclass.repo.CourseRepo;
 import jakarta.transaction.Transactional;
@@ -34,7 +34,7 @@ public class CourseService {
 
     public Course findCourseById(Long id) {
         return courseRepo.findCourseById(id)
-                .orElseThrow(() -> new UserNotFoundException("User By id " + id + " was not found"));
+                .orElseThrow(() -> new CourseNotFoundException("Course By id " + id + " was not found"));
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,14 +21,22 @@ public class Course implements Serializable {
     private String courseCode;
     @OneToMany
     private List<Student> students;
-    @ManyToAny
+    @ElementCollection
+    @CollectionTable(name = "student_grade_mapping",
+            joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+    @MapKeyColumn(name = "student")
+    @Column(name = "grade")
     private Map<Student, Integer> studentGrades;
 
-    public Course() {}
+    public Course() {
+        this.students = new ArrayList<>();
+        this.studentGrades = new HashMap<>();
+    }
 
     public Course(String name, String professor) {
         this.name = name;
         this.professor = professor;
+        this.students = new ArrayList<>();
         this.studentGrades = new HashMap<>();
     }
 
@@ -35,7 +44,6 @@ public class Course implements Serializable {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
     }
