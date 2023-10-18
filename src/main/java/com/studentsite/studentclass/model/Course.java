@@ -1,13 +1,9 @@
 package com.studentsite.studentclass.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ManyToAny;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Course implements Serializable {
@@ -19,24 +15,24 @@ public class Course implements Serializable {
     private String professor;
     @Column(nullable = false, updatable = false)
     private String courseCode;
-    @OneToMany
-    private List<Student> students;
+    @ElementCollection
+    private Set<Integer> students;
     @ElementCollection
     @CollectionTable(name = "student_grade_mapping",
             joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
     @MapKeyColumn(name = "student")
     @Column(name = "grade")
-    private Map<Student, Integer> studentGrades;
+    private Map<Integer, Integer> studentGrades;
 
     public Course() {
-        this.students = new ArrayList<>();
+        this.students = new HashSet<>();
         this.studentGrades = new HashMap<>();
     }
 
     public Course(String name, String professor) {
         this.name = name;
         this.professor = professor;
-        this.students = new ArrayList<>();
+        this.students = new HashSet<>();
         this.studentGrades = new HashMap<>();
     }
 
@@ -63,21 +59,21 @@ public class Course implements Serializable {
         this.professor = professor;
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    public void addStudent(Integer studentId) {
+        students.add(studentId);
     }
 
-    public void addGrade(Student student, Integer grade) {
-        studentGrades.put(student, grade);
+    public void addGrade(Integer studentId, Integer grade) {
+        studentGrades.put(studentId, grade);
     }
 
-    public void removeStudent(Student student) {
-        students.remove(student);
-        studentGrades.remove(student);
+    public void removeStudent(Integer studentId) {
+        students.remove(studentId);
+        studentGrades.remove(studentId);
     }
 
-    public void removeGrade(Student student) {
-        studentGrades.remove(student);
+    public void removeGrade(Integer studentId) {
+        studentGrades.remove(studentId);
     }
 
     public String getCourseCode() {

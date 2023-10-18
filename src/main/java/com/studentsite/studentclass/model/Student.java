@@ -3,8 +3,8 @@ package com.studentsite.studentclass.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Student implements Serializable {
@@ -17,18 +17,18 @@ public class Student implements Serializable {
     private String phone;
     @Column(nullable = false, updatable = false)
     private String studentCode;
-    @OneToMany
-    private List<Course> courses;
+    @ElementCollection
+    private Set<Integer> courses;
 
     public Student() {
-        this.courses = new ArrayList<>();
+        this.courses = new HashSet<>();
     }
 
-    public Student(String name, String email, String phone, List<Course> courses) {
+    public Student(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.courses = courses;
+        this.courses = new HashSet<>();
     }
 
     public Long getId() {
@@ -81,11 +81,11 @@ public class Student implements Serializable {
         this.studentCode = studentCode;
     }
 
-    public List<Course> getCourses() {
+    public Set<Integer> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(Set<Integer> courses) {
         this.courses = courses;
     }
 }
