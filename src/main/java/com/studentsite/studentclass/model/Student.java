@@ -3,8 +3,7 @@ package com.studentsite.studentclass.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Student implements Serializable {
@@ -18,17 +17,21 @@ public class Student implements Serializable {
     @Column(nullable = false, updatable = false)
     private String studentCode;
     @ElementCollection
-    private Set<Integer> courseIds;
+    private List<Integer> courseIds;
+    @ElementCollection
+    private Map<Integer, Integer> courseGrades;
 
     public Student() {
-        this.courseIds = new HashSet<>();
+        this.courseIds = new ArrayList<>();
+        this.courseGrades = new HashMap<>();
     }
 
     public Student(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.courseIds = new HashSet<>();
+        this.courseIds = new ArrayList<>();
+        this.courseGrades = new HashMap<>();
     }
 
     public Long getId() {
@@ -81,11 +84,31 @@ public class Student implements Serializable {
         this.studentCode = studentCode;
     }
 
-    public Set<Integer> getCourses() {
+    public List<Integer> getCourseIds() {
         return courseIds;
     }
 
-    public void setCourses(Set<Integer> courses) {
-        this.courseIds = courses;
+    public void setCourseIds(List<Integer> courseIds) {
+        this.courseIds = courseIds;
+    }
+
+    public Map<Integer, Integer> getCourseGrades() {
+        return this.courseGrades;
+    }
+    public void setCourseGrades(Map<Integer, Integer> courseGrades) {
+        this.courseGrades = courseGrades;
+    }
+
+    public void addGrade(Integer courseId, Integer grade) {
+        courseGrades.put(courseId, grade);
+    }
+
+    public void removeCourse(Integer courseId) {
+        courseIds.remove(courseId);
+        courseGrades.remove(courseId);
+    }
+
+    public void removeGrade(Integer courseId) {
+        courseGrades.remove(courseId);
     }
 }
