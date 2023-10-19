@@ -18,17 +18,17 @@ public class Student implements Serializable {
     @Column(nullable = false, updatable = false)
     private String studentCode;
     @ElementCollection
-    private Set<Integer> courses;
+    private Set<Integer> courseIds;
 
     public Student() {
-        this.courses = new HashSet<>();
+        this.courseIds = new HashSet<>();
     }
 
     public Student(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.courses = new HashSet<>();
+        this.courseIds = new HashSet<>();
     }
 
     public Long getId() {
@@ -82,10 +82,10 @@ public class Student implements Serializable {
     }
 
     public Set<Integer> getCourses() {
-        return courses;
+        return courseIds;
     }
 
     public void setCourses(Set<Integer> courses) {
-        this.courses = courses;
+        this.courseIds = courses;
     }
 }

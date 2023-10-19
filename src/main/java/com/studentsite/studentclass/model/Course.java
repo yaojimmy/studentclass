@@ -16,23 +16,19 @@ public class Course implements Serializable {
     @Column(nullable = false, updatable = false)
     private String courseCode;
     @ElementCollection
-    private Set<Integer> students;
+    private Set<Integer> studentIds;
     @ElementCollection
-    @CollectionTable(name = "student_grade_mapping",
-            joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "student")
-    @Column(name = "grade")
     private Map<Integer, Integer> studentGrades;
 
     public Course() {
-        this.students = new HashSet<>();
+        this.studentIds = new HashSet<>();
         this.studentGrades = new HashMap<>();
     }
 
     public Course(String name, String professor) {
         this.name = name;
         this.professor = professor;
-        this.students = new HashSet<>();
+        this.studentIds = new HashSet<>();
         this.studentGrades = new HashMap<>();
     }
 
@@ -60,7 +56,7 @@ public class Course implements Serializable {
     }
 
     public void addStudent(Integer studentId) {
-        students.add(studentId);
+        studentIds.add(studentId);
     }
 
     public void addGrade(Integer studentId, Integer grade) {
@@ -68,7 +64,7 @@ public class Course implements Serializable {
     }
 
     public void removeStudent(Integer studentId) {
-        students.remove(studentId);
+        studentIds.remove(studentId);
         studentGrades.remove(studentId);
     }
 
@@ -82,5 +78,19 @@ public class Course implements Serializable {
 
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
+    }
+
+    public Set<Integer> getStudentIds() {
+        return this.studentIds;
+    }
+    public void setStudentIds(Set<Integer> studentIds) {
+        this.studentIds = studentIds;
+    }
+
+    public Map<Integer, Integer> getStudentGrades() {
+        return this.studentGrades;
+    }
+    public void setStudentGrades(Map<Integer, Integer> studentGrades) {
+        this.studentGrades = studentGrades;
     }
 }
