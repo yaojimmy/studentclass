@@ -1,4 +1,4 @@
-package com.studentsite.studentclass;
+package com.studentsite.studentclass.controller;
 
 import com.studentsite.studentclass.model.Course;
 import com.studentsite.studentclass.service.CourseService;
